@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My Hotels | StayIN{% endblock %}
+{% block content %}
+<div>
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2>My Hotels</h2>
+    <a class="btn primary" href="{{ url_for('add_hotel') }}">+ Add New Hotel</a>
+  </div>
+
+  {% if hotels %}
+    <div class="hotel-grid" style="margin-top:18px;">
+      {% for h in hotels %}
+      <article class="hotel-card">
+        {% set fallback_img = "https://images.unsplash.com/photo-1501117716987-c8e1ecb210d3?w=1200" %}
+        <div class="hotel-img" style="background-image:url('{{ h.image_url if h.image_url else fallback_img }}')"></div>
+        <div class="hotel-info">
+          <h3>{{ h.name }}</h3>
+          <div class="muted">{{ h.location }}</div>
+          <p class="muted">{{ (h.description or '')[:120] }}</p>
+          <div style="margin-top:12px;">
+            <a class="btn" href="{{ url_for('add_room', hotel_id=h.id) }}">+ Add Room</a>
+            <a class="btn" href="{{ url_for('hotel_detail', hotel_id=h.id) }}">View</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">You haven't added any hotels yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

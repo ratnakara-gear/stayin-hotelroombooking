@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Owner Dashboard | StayIN{% endblock %}
+
+{% block content %}
+<div class="container main-pad">
+    <h2>Owner Dashboard</h2>
+
+    <div class="card" style="margin-top:20px;">
+        <p>Total Hotels: {{ total_hotels }}</p>
+        <p>Total Rooms: {{ total_rooms }}</p>
+        <p>Total Bookings: {{ total_bookings }}</p>
+    </div>
+
+    <a class="btn primary" href="{{ url_for('owner_hotels') }}" style="margin-top:20px;">Manage Hotels</a>
+</div>
+{% endblock %}

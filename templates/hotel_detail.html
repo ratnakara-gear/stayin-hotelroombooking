@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ hotel.name }} — StayIN{% endblock %}
+{% block content %}
+<div style="margin-top:12px;">
+  {% set fallback_img = "https://images.unsplash.com/photo-1501117716987-c8e1ecb210d3?w=1200" %}
+  <div class="hotel-img" style="height:260px;border-radius:12px;background-image:url('{{ hotel.image_url if hotel.image_url else fallback_img }}')"></div>
+
+  <div style="display:flex;gap:28px;margin-top:18px;align-items:flex-start;">
+    <div style="flex:1;">
+      <h2>{{ hotel.name }}</h2>
+      <div class="muted">{{ hotel.location }}</div>
+      <p style="margin-top:12px;color:rgba(255,255,255,0.95)">{{ hotel.description or "No description provided." }}</p>
+
+      <h3 style="margin-top:18px;">Rooms</h3>
+      <div>
+        {% for r in rooms %}
+          <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div>
+              <div style="font-weight:700;">{{ r.room_type }} {% if not r.available %}<span style="opacity:0.8;">(Not available)</span>{% endif %}</div>
+              <div class="muted">₹{{ r.price_per_night }} / night</div>
+            </div>
+            <div>
+              {% if current_user.is_authenticated %}
+                <a class="btn primary" href="{{ url_for('book_room', room_id=r.id) }}">Book</a>
+              {% else %}
+                <a class="btn" href="{{ url_for('login') }}">Login to Book</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <aside style="width:320px;">
+      <div class="card">
+        <h4>Quick Info</h4>
+        <p class="muted">Location: {{ hotel.location }}</p>
+        <p class="muted">Owner: {{ hotel.owner.name }}</p>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Bookings | StayIN{% endblock %}
+{% block content %}
+<div>
+  <h2>My Bookings</h2>
+  {% if bookings %}
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      {% for b in bookings %}
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <strong>{{ b.room.room_type }}</strong> — <span class="muted">{{ b.room.hotel.name }}</span>
+              <div class="muted">From {{ b.check_in }} to {{ b.check_out }}</div>
+            </div>
+            <div>
+              <div class="muted">₹{{ '%.2f'|format(b.total_price) }}</div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">You have no bookings yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

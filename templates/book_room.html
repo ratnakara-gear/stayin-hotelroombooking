@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Book — {{ room.room_type }}{% endblock %}
+{% block content %}
+<div style="max-width:720px;margin:18px auto;">
+  <div class="card">
+    <h3>Book: {{ room.room_type }}</h3>
+    <p class="muted">{{ hotel.name }} — {{ hotel.location }}</p>
+
+    <form method="POST" action="{{ url_for('book_room', room_id=room.id) }}">
+      <label>Check-in</label>
+      <input class="input" type="date" name="check_in" required>
+      <label>Check-out</label>
+      <input class="input" type="date" name="check_out" required>
+      <div style="margin-top:12px;">
+        <button class="btn primary" type="submit">Confirm Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

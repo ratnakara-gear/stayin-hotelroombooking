@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}StayIN – Find Your Perfect Stay{% endblock %}
+{% block content %}
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Find Your Next Stay</h1>
+    <p class="muted">Explore hotels, rooms & destinations across India.</p>
+  </div>
+</div>
+
+<div class="home-search-row">
+  <input id="home-search" class="input" placeholder="Search hotels...">
+  <button id="home-search-btn" class="btn">Search</button>
+</div>
+
+<h2 style="margin-top:18px">Explore Popular Hotels</h2>
+<p class="muted">Hand-picked stays just for you.</p>
+
+<div class="hotel-grid">
+  {% for h in hotels %}
+  <article class="hotel-card" data-name="{{ h.name|lower }}" data-location="{{ h.location|lower }}" data-minprice="{{ hotel_min[h.id] if hotel_min[h.id] is not none else 999999 }}">
+    <a href="{{ url_for('hotel_detail', hotel_id=h.id) }}">
+      {% set fallback_img = "https://images.unsplash.com/photo-1501117716987-c8e1ecb210d3?w=1200" %}
+      <div class="hotel-img" style="background-image: url('{{ h.image_url if h.image_url else fallback_img }}');"></div>
+    </a>
+    <div class="hotel-info">
+      <h3><a href="{{ url_for('hotel_detail', hotel_id=h.id) }}">{{ h.name }}</a></h3>
+      <div class="muted">{{ h.location }}</div>
+      <p class="muted">{{ (h.description or '')[:120] }}{% if h.description and h.description|length > 120 %}...{% endif %}</p>
+      <div class="hotel-footer">
+        {% if hotel_min[h.id] %}
+          <div class="price">From ₹{{ hotel_min[h.id] }}</div>
+        {% else %}
+          <div class="price muted">Price not listed</div>
+        {% endif %}
+        <a class="btn" href="{{ url_for('hotel_detail', hotel_id=h.id) }}">View Details</a>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
