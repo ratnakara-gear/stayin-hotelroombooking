@@ -4,3 +4,5 @@ Flask_Bcrypt
 Flask_Login
 psycopg2-binary
 gunicorn
+python-dotenv
+
