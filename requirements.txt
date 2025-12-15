@@ -6,4 +6,5 @@ psycopg2-binary
 gunicorn
 python-dotenv
 Authlib
+requests
 
