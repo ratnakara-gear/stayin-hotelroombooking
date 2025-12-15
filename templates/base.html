@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}StayIN{% endblock %}</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="gradient-bg">
+
+  <!-- NAVBAR -->
+   {% if not hide_navbar %}
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="{{ url_for('index') }}" class="logo">StayIN</a>
+    </div>
+
+    <div class="nav-right">
+      {% if current_user.is_authenticated %}
+        <span style="margin-right:12px;">Hi, <strong>{{ current_user.name }}</strong></span>
+        {% if current_user.role == 'owner' %}
+          <a class="btn" href="{{ url_for('owner_dashboard') }}">Dashboard</a>
+        {% else %}
+          <a class="btn" href="{{ url_for('user_dashboard') }}">Dashboard</a>
+        {% endif %}
+        <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login') }}">Login</a>
+        <a class="btn" href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+
+      <button id="menu-btn" class="hamburger" aria-label="open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+{% endif %}
+  <!-- SIDE MENU -->
+  <div id="side-menu" class="side-menu" role="navigation" aria-hidden="true">
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('user_dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('user_bookings') }}">My Bookings</a>
+      {% if current_user.role == 'owner' %}
+        <a href="{{ url_for('owner_hotels') }}">Manage Hotels</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+    <a href="{{ url_for('list_hotels') }}">Browse Hotels</a>
+    <a href="#">Contact</a>
+    <a href="#">Help</a>
+  </div>
+
+  <div id="menu-overlay"></div>
+
+  <!-- Flash messages -->
+  <div id="flash-area">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- CONTENT WRAPPER -->
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

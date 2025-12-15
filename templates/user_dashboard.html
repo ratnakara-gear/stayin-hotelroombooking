@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard | StayIN{% endblock %}
+{% block content %}
+<div>
+  <h2>Welcome, {{ user.name }}</h2>
+  <a class="btn primary" href="{{ url_for('user_bookings') }}">My Bookings</a>
+  <a class="btn" href="{{ url_for('list_hotels') }}">Browse Hotels</a>
+</div>
+{% endblock %}

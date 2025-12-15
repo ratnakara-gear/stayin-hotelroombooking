@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Add Room | StayIN{% endblock %}
+{% block content %}
+<div style="max-width:720px;margin:18px auto;">
+  <div class="card">
+    <h3>Add Room — {{ hotel.name }}</h3>
+    <form method="POST" action="{{ url_for('add_room', hotel_id=hotel.id) }}">
+      <label>Room Type</label>
+      <input class="input" name="room_type" required>
+      <label>Price per night (₹)</label>
+      <input class="input" name="price" type="number" step="0.01" required>
+      <label><input type="checkbox" name="available" checked> Available</label>
+      <div style="margin-top:12px;">
+        <button class="btn primary" type="submit">Add Room</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
